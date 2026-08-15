@@ -124,7 +124,6 @@ Thumbs.db:encryptable
 
 # Flutter analysis
 analysis_options.yaml
-*.yaml
 
 # Secrets
 *.env

@@ -1,5 +1,4 @@
 import 'package:flame/game.dart';
-import 'package:flutter/services.dart';
 import '../managers/resource_manager.dart';
 import '../entities/entities_system.dart';
 import '../entities/player/player_controller.dart';
@@ -41,7 +40,6 @@ class EcoVerseGame extends FlameGame {
   @override
   void update(double dt) {
     super.update(dt);
-    playerController.update(dt);
     chunkManager.updateChunks(playerController.position);
     camera.viewfinder.position = playerController.position;
   }

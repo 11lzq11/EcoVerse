@@ -8,11 +8,13 @@ class VoxelWorld {
 
   final PerlinNoise _noise;
   final int seed;
-  final Map<Vector2, VoxelType> _voxels = {};
+  final Map<String, VoxelType> _voxels = {};
 
   VoxelWorld({this.seed = 42}) : _noise = PerlinNoise(seed);
 
   Vector2 get playerPosition => Vector2(0, 0);
+
+  String _key(int x, int y, int z) => '$x,$y,$z';
 
   void generateTerrain() {
     for (int x = -50; x < 50; x++) {
@@ -42,18 +44,18 @@ class VoxelWorld {
 
   void setVoxel(int x, int y, int z, VoxelType type) {
     if (y >= 0 && y < WORLD_HEIGHT) {
-      _voxels[Vector2(x.toDouble(), z.toDouble())] = type;
+      _voxels[_key(x, y, z)] = type;
     }
   }
 
   VoxelType? getVoxel(int x, int y, int z) {
     if (y < 0 || y >= WORLD_HEIGHT) return null;
-    return _voxels[Vector2(x.toDouble(), z.toDouble())];
+    return _voxels[_key(x, y, z)];
   }
 
   bool isSolid(int x, int y, int z) {
     final type = getVoxel(x, y, z);
-    return type != null && blockSolid[type] ?? true;
+    return type != null && (blockSolid[type] ?? false);
   }
 
   Vector2 getPlayerHeight() {

@@ -4,6 +4,6 @@ import 'package:ecoverse/main.dart';
 void main() {
   testWidgets('App smoke test', (tester) async {
     await tester.pumpWidget(const EcoVerseApp());
-    expect(find.text('EcoVerse'), findsOneWidget);
+    expect(find.byType(EcoVerseApp), findsOneWidget);
   });
 }

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flame/game.dart';
+import 'ecoverse_game.dart';
 
 class EcoVerseGamePage extends StatelessWidget {
   const EcoVerseGamePage({super.key});
@@ -6,20 +8,7 @@ class EcoVerseGamePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('EcoVerse')),
-      body: const Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text('EcoVerse - Coming Soon'),
-            SizedBox(height: 24),
-            ElevatedButton(
-              onPressed: null,
-              child: Text('Start Game'),
-            ),
-          ],
-        ),
-      ),
+      body: GameWidget(game: EcoVerseGame()),
     );
   }
 }

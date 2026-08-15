@@ -17,7 +17,9 @@ class PlayerController extends PositionComponent {
     return (dx * dx + dz * dz).sqrt() <= range;
   }
 
+  @override
   void update(double dt) {
+    super.update(dt);
     _velocity.y += gravity * dt;
     position += _velocity * dt;
 
