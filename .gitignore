@@ -69,16 +69,9 @@ android/gradle/wrapper/gradle-wrapper.jar
 
 # iOS
 /ios/Pods/
-/ios/*.xcworkspace
-/ios/Runner.xcodeproj/
-/ios/Runner.xcodeproj/project.pbxproj
-/ios/Runner.xcodeproj/xcshareddata/
 /ios/Runner.xcworkspace/xcuserdata/
 /ios/Flutter/Generated.xcconfig
 /ios/Flutter/ephemeral/
-/ios/Flutter/AppFrameworkInfo.plist
-/ios/Flutter/Release.xcconfig
-/ios/Flutter/Debug.xcconfig
 /ios/Runner/GeneratedPluginRegistrant.h
 /ios/Runner/GeneratedPluginRegistrant.m
 

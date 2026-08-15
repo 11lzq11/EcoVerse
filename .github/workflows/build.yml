@@ -8,7 +8,7 @@ on:
   workflow_dispatch:
 
 env:
-  FLUTTER_VERSION: '3.24.0'
+  FLUTTER_VERSION: '3.24.5'
 
 jobs:
   build-android:
@@ -29,6 +29,9 @@ jobs:
           flutter-version: ${{ env.FLUTTER_VERSION }}
           channel: stable
 
+      - name: Flutter info
+        run: flutter doctor -v
+
       - name: Install dependencies
         run: flutter pub get
 
@@ -47,14 +50,19 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Setup MSVC
+        uses: ilammy/msvc-dev-cmd@v1
+        with:
+          arch: x64
+
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
           flutter-version: ${{ env.FLUTTER_VERSION }}
           channel: stable
 
-      - name: Enable Windows desktop
-        run: flutter config --enable-windows-desktop
+      - name: Flutter info
+        run: flutter doctor -v
 
       - name: Install dependencies
         run: flutter pub get
@@ -80,8 +88,8 @@ jobs:
           flutter-version: ${{ env.FLUTTER_VERSION }}
           channel: stable
 
-      - name: Enable macOS desktop
-        run: flutter config --enable-macos-desktop
+      - name: Flutter info
+        run: flutter doctor -v
 
       - name: Install dependencies
         run: flutter pub get
@@ -91,13 +99,16 @@ jobs:
 
       - name: Create DMG
         run: |
-          hdiutil create -volname "EcoVerse" -srcfolder build/macos Build/Products/Release -ov -format UDZO EcoVerse.dmg
+          hdiutil create -volname "EcoVerse" \
+            -srcfolder build/macos/Build/Products/Release \
+            -ov -format UDZO \
+            ecoverse.dmg
 
       - name: Upload macOS DMG
         uses: actions/upload-artifact@v4
         with:
           name: ecoverse-macos
-          path: EcoVerse.dmg
+          path: ecoverse.dmg
 
   build-ios:
     name: Build iOS (Unsigned IPA)
@@ -110,6 +121,9 @@ jobs:
         with:
           flutter-version: ${{ env.FLUTTER_VERSION }}
           channel: stable
+
+      - name: Flutter info
+        run: flutter doctor -v
 
       - name: Install dependencies
         run: flutter pub get
