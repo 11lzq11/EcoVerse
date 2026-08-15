@@ -4,7 +4,7 @@ import 'package:flame/rendering.dart';
 import 'package:flutter/material.dart';
 import 'package:vector_math/vector_math_64.dart';
 import '../ecoverse_game.dart';
-import '../voxel_types.dart';
+import '../world/voxel_types.dart';
 import '../world/voxel_world.dart';
 
 /// Renderer that draws the voxel world using custom painters

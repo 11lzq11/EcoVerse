@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../managers/game_state_manager.dart';
-import '../voxel_types.dart';
+import '../world/voxel_types.dart';
 
 /// HUD overlay widget displayed during gameplay
 class HudWidget extends StatelessWidget {

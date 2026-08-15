@@ -1,5 +1,5 @@
 import 'package:flutter/foundation.dart';
-import '../voxel_types.dart';
+import '../world/voxel_types.dart';
 import '../world/voxel_world.dart';
 
 /// Manages game resources like textures, sounds, models

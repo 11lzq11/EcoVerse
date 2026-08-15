@@ -1,6 +1,6 @@
 import 'dart:math' as math;
 import 'package:vector_math/vector_math_64.dart';
-import '../voxel_types.dart';
+import '../world/voxel_types.dart';
 
 /// Player controller component
 class PlayerController {

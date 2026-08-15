@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../voxel_types.dart';
+import '../world/voxel_types.dart';
 import '../world/voxel_world.dart';
 
 /// Manages saving and loading of world data

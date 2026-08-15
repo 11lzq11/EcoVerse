@@ -1,5 +1,5 @@
 import 'package:flutter/foundation.dart';
-import '../voxel_types.dart';
+import '../world/voxel_types.dart';
 
 /// Manages game state like mode, pause, notifications
 class GameStateManager extends ChangeNotifier {
