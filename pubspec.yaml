@@ -15,7 +15,6 @@ dependencies:
   
   # Game engine
   flame: ^1.14.0
-  flame_audio: ^2.1.2
   
   # State management
   provider: ^6.1.1
@@ -24,11 +23,7 @@ dependencies:
   shared_preferences: ^2.2.2
   
   # UI enhancements
-  flutter_animate: ^4.3.0
   flutter_svg: ^2.0.9
-  
-  # Audio
-  just_audio: ^0.9.36
 
 dev_dependencies:
   flutter_test:
