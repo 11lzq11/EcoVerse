@@ -1,5 +1,6 @@
 import 'dart:math' as math;
 import 'package:vector_math/vector_math_64.dart';
+import 'package:flame/game.dart';
 
 /// Voxel type constants for different block types
 enum VoxelType {
@@ -57,30 +58,9 @@ class BlockProperties {
 /// Simplified 3D vector using int32 for performance
 typedef IntVector3 = Vector3i;
 
-extension IntVector3Extension on Vector3i {
-  bool get isZero => x == 0 && y == 0 && z == 0;
-  
-  IntVector3 operator +(IntVector3 other) => 
-    Vector3i(x + other.x, y + other.y, z + other.z);
-  
-  IntVector3 operator -(IntVector3 other) => 
-    Vector3i(x - other.x, y - other.y, z - other.z);
-  
-  IntVector3 operator *(int scalar) => 
-    Vector3i(x * scalar, y * scalar, z * scalar);
-  
-  bool operator ==(Object other) => 
-    other is IntVector3 && x == other.x && y == other.y && z == other.z;
-  
-  int get hashCode => Object.hash(x, y, z);
-  
-  @override
-  String toString() => '($x, $y, $z)';
-}
-
 /// Raycast result for block interaction
 class RaycastResult {
-  final IntVector3 position;
+  final Vector3i position;
   final Vector3? faceNormal;
   final double distance;
   
@@ -146,19 +126,12 @@ enum EntityType {
   enderman,
 }
 
-/// Simple color class
+/// Simple color class for block colors
 class Color {
   final int r, g, b, a;
   const Color(this.r, this.g, this.b, [this.a = 255]);
   
   int get argb => (a << 24) | (r << 16) | (g << 8) | b;
-  
-  @override
-  bool operator ==(Object other) => 
-    other is Color && r == other.r && g == other.g && b == other.b && a == other.a;
-  
-  @override
-  int get hashCode => Object.hash(r, g, b, a);
 }
 
 /// Block properties map
