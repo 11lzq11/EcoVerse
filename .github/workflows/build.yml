@@ -66,6 +66,9 @@ jobs:
         flutter-version: '3.16.0'
         channel: 'stable'
     
+    - name: Add macOS platform
+      run: flutter create . --platforms=macos
+      
     - name: Get dependencies
       run: flutter pub get
       
@@ -97,6 +100,9 @@ jobs:
         flutter-version: '3.16.0'
         channel: 'stable'
     
+    - name: Add iOS platform
+      run: flutter create . --platforms=ios
+      
     - name: Get dependencies
       run: flutter pub get
       
