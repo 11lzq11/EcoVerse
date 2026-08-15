@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'src/game/ecoverse_game.dart';
+import 'src/game/game_page.dart';
 
 void main() {
   runApp(const EcoVerseApp());

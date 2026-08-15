@@ -12,19 +12,12 @@ class EcoVerseGamePage extends StatelessWidget {
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Text('EcoVerse - Coming Soon'),
-            const SizedBox(height: 24),
+          children: const [
+            Text('EcoVerse - Coming Soon'),
+            SizedBox(height: 24),
             ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (_) => GameWidget(game: EcoVerseGame()),
-                  ),
-                );
-              },
-              child: const Text('Start Game'),
+              onPressed: null,
+              child: Text('Start Game'),
             ),
           ],
         ),
