@@ -1,7 +1,7 @@
-import 'package:ecoverse/src/game/menu/main_menu.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'src/game/managers/game_state_manager.dart';
+import 'src/game/menu/main_menu.dart';
 
 void main() {
   runApp(

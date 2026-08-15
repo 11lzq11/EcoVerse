@@ -23,10 +23,3 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
-  
-  # Assets are optional - create placeholder directories if needed
-  # assets:
-  #   - assets/textures/
-  #   - assets/sounds/
-  #   - assets/models/
-  #   - assets/ui/

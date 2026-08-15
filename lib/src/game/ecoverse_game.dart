@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:flame/components.dart';
 import 'package:flame/events.dart';
 import 'package:flame/game.dart';
 import 'package:flutter/services.dart';
@@ -33,7 +34,7 @@ class EcoVerseGame extends FlameGame with HasKeyboardHandlerComponents, TapCallb
 
     // 添加玩家控制器
     playerController = PlayerController(
-      position: world.getPlayerHeight(),
+      position: Vector2(world.playerPosition.x, world.playerPosition.y),
       game: this,
     );
     await add(playerController);
@@ -47,7 +48,7 @@ class EcoVerseGame extends FlameGame with HasKeyboardHandlerComponents, TapCallb
     await add(entitiesSystem);
 
     // 设置初始相机位置
-    camera.viewfinder.position = world.getPlayerHeight();
+    camera.viewfinder.position = Vector2(world.playerPosition.x, world.playerPosition.y);
   }
 
   @override
@@ -61,10 +62,10 @@ class EcoVerseGame extends FlameGame with HasKeyboardHandlerComponents, TapCallb
     playerController.update(dt);
 
     // 更新chunk管理
-    chunkManager.updateChunks(playerController.position);
+    chunkManager.updateChunks(Vector2(playerController.position.x, playerController.position.y));
 
     // 更新相机跟随
-    camera.viewfinder.position = playerController.position;
+    camera.viewfinder.position = Vector2(playerController.position.x, playerController.position.y);
   }
 
   void _processKeyboardInput(double dt) {
@@ -72,10 +73,10 @@ class EcoVerseGame extends FlameGame with HasKeyboardHandlerComponents, TapCallb
     final Vector2 direction = Vector2.zero();
 
     if (keysDown[LogicalKeyboardKey.keyW] == true || keysDown[LogicalKeyboardKey.arrowUp] == true) {
-      direction.y -= 1;
+      direction.y += 1;
     }
     if (keysDown[LogicalKeyboardKey.keyS] == true || keysDown[LogicalKeyboardKey.arrowDown] == true) {
-      direction.y += 1;
+      direction.y -= 1;
     }
     if (keysDown[LogicalKeyboardKey.keyA] == true || keysDown[LogicalKeyboardKey.arrowLeft] == true) {
       direction.x -= 1;
