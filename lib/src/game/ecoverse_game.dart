@@ -6,7 +6,7 @@ import 'world/chunk_manager.dart';
 import 'world/voxel_world.dart';
 
 class EcoVerseGame extends FlameGame {
-  late VoxelWorld world;
+  late VoxelWorld voxelWorld;
   late ChunkManager chunkManager;
   late PlayerController playerController;
   late ResourceManager resourceManager;
@@ -19,22 +19,22 @@ class EcoVerseGame extends FlameGame {
     resourceManager = ResourceManager();
     await resourceManager.loadAll();
 
-    world = VoxelWorld(seed: 42);
-    world.generateTerrain();
+    voxelWorld = VoxelWorld(seed: 42);
+    voxelWorld.generateTerrain();
 
     playerController = PlayerController(
-      position: world.playerPosition,
+      position: voxelWorld.playerPosition,
       game: this,
     );
     await add(playerController);
 
-    chunkManager = ChunkManager(world, renderDistance: 4);
+    chunkManager = ChunkManager(voxelWorld, renderDistance: 4);
     await add(chunkManager);
 
     entitiesSystem = EntitiesSystem();
     await add(entitiesSystem);
 
-    camera.viewfinder.position = world.playerPosition;
+    camera.viewfinder.position = voxelWorld.playerPosition;
   }
 
   @override

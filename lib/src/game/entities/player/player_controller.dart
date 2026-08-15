@@ -1,3 +1,4 @@
+import 'dart:math' as math;
 import 'package:flame/components.dart';
 import '../../ecoverse_game.dart';
 
@@ -14,7 +15,7 @@ class PlayerController extends PositionComponent {
   bool isInRange(int x, int z, double range) {
     final dx = position.x - x.toDouble();
     final dz = position.y - z.toDouble();
-    return (dx * dx + dz * dz).sqrt() <= range;
+    return math.sqrt(dx * dx + dz * dz) <= range;
   }
 
   @override
