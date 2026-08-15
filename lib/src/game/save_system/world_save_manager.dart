@@ -15,7 +15,7 @@ class WorldSaveManager {
   Map<String, dynamic> _serializeWorld(VoxelWorld world) {
     return {
       'seed': world.seed,
-      'chunks': {},
+      'voxels': {},
     };
   }
 

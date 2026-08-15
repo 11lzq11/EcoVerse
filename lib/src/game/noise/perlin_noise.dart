@@ -1,3 +1,5 @@
+import 'dart:math' as math;
+
 class PerlinNoise {
   final List<int> perm;
 
@@ -5,7 +7,7 @@ class PerlinNoise {
 
   static List<int> _generatePerm(int seed) {
     final p = List<int>.generate(256, (i) => i);
-    final rng = Random(seed);
+    final rng = math.Random(seed);
     for (int i = 255; i > 0; i--) {
       final j = rng.nextInt(i + 1);
       final temp = p[i];
@@ -41,7 +43,8 @@ class PerlinNoise {
     );
   }
 
-  double octaveNoise(double x, double y, {int octaves = 4, double persistence = 0.5}) {
+  double octaveNoise(double x, double y,
+      {int octaves = 4, double persistence = 0.5}) {
     double total = 0;
     double frequency = 1;
     double amplitude = 1;
