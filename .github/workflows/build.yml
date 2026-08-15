@@ -26,8 +26,107 @@ jobs:
     - name: Run analyzer
       run: flutter analyze --no-fatal-infos --no-fatal-warnings
       
+  build-windows:
+    name: Build Windows
+    runs-on: windows-2022
+    needs: analyze
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Setup Flutter
+      uses: subosito/flutter-action@v2
+      with:
+        flutter-version: '3.16.0'
+        channel: 'stable'
+    
+    - name: Add Windows platform
+      run: flutter create . --platforms=windows
+    
+    - name: Get dependencies
+      run: flutter pub get
+      
+    - name: Build Windows
+      run: flutter build windows --release
+      
+    - name: Upload artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: ecoverse-windows
+        path: build/windows/x64/runner/Release/
+        
+  build-macos:
+    name: Build macOS
+    runs-on: macos-latest
+    needs: analyze
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Setup Flutter
+      uses: subosito/flutter-action@v2
+      with:
+        flutter-version: '3.16.0'
+        channel: 'stable'
+    
+    - name: Add macOS platform
+      run: flutter create . --platforms=macos
+    
+    - name: Get dependencies
+      run: flutter pub get
+      
+    - name: Build macOS
+      run: flutter build macos --release
+      
+    - name: Create DMG
+      run: |
+        cd build/macos/Build/Products/Release
+        hdiutil create -volname EcoVerse -srcfolder EcoVerse.app -ov -format UDZO EcoVerse.dmg
+        
+    - name: Upload artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: ecoverse-macos
+        path: build/macos/Build/Products/Release/EcoVerse.dmg
+        
+  build-ios:
+    name: Build iOS
+    runs-on: macos-latest
+    needs: analyze
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Setup Flutter
+      uses: subosito/flutter-action@v2
+      with:
+        flutter-version: '3.16.0'
+        channel: 'stable'
+    
+    - name: Add iOS platform
+      run: flutter create . --platforms=ios
+    
+    - name: Get dependencies
+      run: flutter pub get
+      
+    - name: Build iOS
+      run: flutter build ios --release --no-codesign
+    
+    - name: Archive IPA
+      run: |
+        cd build/ios/iphoneos
+        mkdir -p Payload
+        cp -r Runner.app Payload/
+        zip -r ecoverse.ipa Payload
+        
+    - name: Upload artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: ecoverse-ios
+        path: build/ios/iphoneos/ecoverse.ipa
+        
   build-android:
-    name: Build Android APK
+    name: Build Android
     runs-on: ubuntu-latest
     needs: analyze
     
@@ -49,10 +148,10 @@ jobs:
     - name: Get dependencies
       run: flutter pub get
       
-    - name: Build Android release
+    - name: Build Android APK
       run: flutter build apk --release
       
-    - name: Upload Android artifact
+    - name: Upload artifact
       uses: actions/upload-artifact@v4
       with:
         name: ecoverse-android
