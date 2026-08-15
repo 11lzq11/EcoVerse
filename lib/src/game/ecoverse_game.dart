@@ -1,6 +1,5 @@
 import 'package:flame/game.dart';
 import 'package:flutter/services.dart';
-import 'package:vector_math/vector_math_64.dart';
 
 class EcoVerseGame extends FlameGame with HasKeyboardHandlerComponents {
   final Map<LogicalKeyboardKey, bool> keysDown = {};
