@@ -11,7 +11,7 @@ import 'world/chunk_manager.dart';
 import 'world/voxel_world.dart';
 
 class EcoVerseGame extends FlameGame with HasKeyboardHandlerComponents, TapCallbacks, DragCallbacks {
-  late VoxelWorld world;
+  late VoxelWorld voxelWorld;
   late ChunkManager chunkManager;
   late PlayerController playerController;
   late ResourceManager resourceManager;
@@ -29,18 +29,18 @@ class EcoVerseGame extends FlameGame with HasKeyboardHandlerComponents, TapCallb
     await resourceManager.loadAll();
 
     // 创建世界
-    world = VoxelWorld(seed: 42);
-    world.generateTerrain();
+    voxelWorld = VoxelWorld(seed: 42);
+    voxelWorld.generateTerrain();
 
     // 添加玩家控制器
     playerController = PlayerController(
-      position: Vector2(world.playerPosition.x, world.playerPosition.y),
+      position: voxelWorld.playerPosition,
       game: this,
     );
     await add(playerController);
 
     // 添加chunk管理器
-    chunkManager = ChunkManager(world, renderDistance: 4);
+    chunkManager = ChunkManager(voxelWorld, renderDistance: 4);
     await add(chunkManager);
 
     // 添加实体系统
@@ -48,7 +48,7 @@ class EcoVerseGame extends FlameGame with HasKeyboardHandlerComponents, TapCallb
     await add(entitiesSystem);
 
     // 设置初始相机位置
-    camera.viewfinder.position = Vector2(world.playerPosition.x, world.playerPosition.y);
+    camera.viewfinder.position = voxelWorld.playerPosition;
   }
 
   @override
@@ -62,10 +62,10 @@ class EcoVerseGame extends FlameGame with HasKeyboardHandlerComponents, TapCallb
     playerController.update(dt);
 
     // 更新chunk管理
-    chunkManager.updateChunks(Vector2(playerController.position.x, playerController.position.y));
+    chunkManager.updateChunks(playerController.position);
 
     // 更新相机跟随
-    camera.viewfinder.position = Vector2(playerController.position.x, playerController.position.y);
+    camera.viewfinder.position = playerController.position;
   }
 
   void _processKeyboardInput(double dt) {
