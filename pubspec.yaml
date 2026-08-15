@@ -1,5 +1,5 @@
 name: ecoverse
-description: 灵境 EcoVerse - 开放创造式沙盒游戏
+description: EcoVerse - Voxel sandbox game
 publish_to: 'none'
 version: 1.0.0+1
 
@@ -10,11 +10,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  cupertino_icons: ^1.0.2
   flame: ^1.15.0
-  provider: ^6.1.1
-  shared_preferences: ^2.2.2
-  vector_math: ^2.1.4
 
 dev_dependencies:
   flutter_test:

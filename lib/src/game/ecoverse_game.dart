@@ -1,9 +1,6 @@
-import 'dart:async';
-import 'package:flame/components.dart';
-import 'package:flame/events.dart';
 import 'package:flame/game.dart';
+import 'package:flame/events.dart';
 import 'package:flutter/services.dart';
-import 'package:vector_math/vector_math_64.dart';
 import '../managers/resource_manager.dart';
 import 'entities/entities_system.dart';
 import 'entities/player/player_controller.dart';
@@ -17,122 +14,75 @@ class EcoVerseGame extends FlameGame with HasKeyboardHandlerComponents, TapCallb
   late ResourceManager resourceManager;
   late EntitiesSystem entitiesSystem;
 
-  // 键盘输入状态
   final Map<LogicalKeyboardKey, bool> keysDown = {};
 
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-
-    // 初始化资源管理器
     resourceManager = ResourceManager();
     await resourceManager.loadAll();
-
-    // 创建世界
     voxelWorld = VoxelWorld(seed: 42);
     voxelWorld.generateTerrain();
-
-    // 添加玩家控制器
-    playerController = PlayerController(
-      position: voxelWorld.playerPosition,
-      game: this,
-    );
+    playerController = PlayerController(position: voxelWorld.playerPosition, game: this);
     await add(playerController);
-
-    // 添加chunk管理器
     chunkManager = ChunkManager(voxelWorld, renderDistance: 4);
     await add(chunkManager);
-
-    // 添加实体系统
     entitiesSystem = EntitiesSystem();
     await add(entitiesSystem);
-
-    // 设置初始相机位置
     camera.viewfinder.position = voxelWorld.playerPosition;
   }
 
   @override
   void update(double dt) {
     super.update(dt);
-
-    // 处理键盘输入
     _processKeyboardInput(dt);
-
-    // 更新玩家
     playerController.update(dt);
-
-    // 更新chunk管理
     chunkManager.updateChunks(playerController.position);
-
-    // 更新相机跟随
     camera.viewfinder.position = playerController.position;
   }
 
   void _processKeyboardInput(double dt) {
-    const double speed = 10.0;
-    final Vector2 direction = Vector2.zero();
-
-    if (keysDown[LogicalKeyboardKey.keyW] == true || keysDown[LogicalKeyboardKey.arrowUp] == true) {
-      direction.y += 1;
+    const speed = 10.0;
+    final dir = Vector2.zero();
+    if (keysDown[LogicalKeyboardKey.keyW] == true || keysDown[LogicalKeyboardKey.arrowUp] == true) dir.y += 1;
+    if (keysDown[LogicalKeyboardKey.keyS] == true || keysDown[LogicalKeyboardKey.arrowDown] == true) dir.y -= 1;
+    if (keysDown[LogicalKeyboardKey.keyA] == true || keysDown[LogicalKeyboardKey.arrowLeft] == true) dir.x -= 1;
+    if (keysDown[LogicalKeyboardKey.keyD] == true || keysDown[LogicalKeyboardKey.arrowRight] == true) dir.x += 1;
+    if (dir.length() > 0) {
+      dir.normalize();
+      dir.scale(speed * dt);
+      playerController.move(dir);
     }
-    if (keysDown[LogicalKeyboardKey.keyS] == true || keysDown[LogicalKeyboardKey.arrowDown] == true) {
-      direction.y -= 1;
-    }
-    if (keysDown[LogicalKeyboardKey.keyA] == true || keysDown[LogicalKeyboardKey.arrowLeft] == true) {
-      direction.x -= 1;
-    }
-    if (keysDown[LogicalKeyboardKey.keyD] == true || keysDown[LogicalKeyboardKey.arrowRight] == true) {
-      direction.x += 1;
-    }
-
-    if (direction.length() > 0) {
-      direction.normalize();
-      direction.scale(speed * dt);
-      playerController.move(direction);
-    }
-
-    // 跳跃
-    if (keysDown[LogicalKeyboardKey.space] == true) {
-      playerController.jump();
-    }
+    if (keysDown[LogicalKeyboardKey.space] == true) playerController.jump();
   }
 
-  // 键盘事件处理
   @override
-  KeyEventResult onKeyEvent(RawKeyEvent event, Set<LogicalKeyboardKey> keysPressed) {
-    final LogicalKeyboardKey key = event.logicalKey;
-    if (event is RawKeyDownEvent) {
-      keysDown[key] = true;
-    } else if (event is RawKeyUpEvent) {
-      keysDown[key] = false;
-    }
-    return KeyEventResult.ignore;
+  void onKeyEvent(RawKeyEvent event, Set<LogicalKeyboardKey> keysPressed) {
+    final key = event.logicalKey;
+    if (event is RawKeyDownEvent) keysDown[key] = true;
+    if (event is RawKeyUpEvent) keysDown[key] = false;
+    super.onKeyEvent(event, keysPressed);
   }
 
-  // 触摸事件处理 - TapCallbacks
   @override
   void onTapDown(TapDownEvent event) {
-    // Handle tap
+    super.onTapDown(event);
   }
 
-  // 拖拽事件处理 - DragCallbacks
   @override
   void onDragStart(DragStartEvent event) {
-    // Handle drag start
+    super.onDragStart(event);
   }
 
   @override
   void onDragUpdate(DragUpdateEvent event) {
-    // Handle drag update
+    super.onDragUpdate(event);
   }
 
   @override
   void onDragEnd(DragEndEvent event) {
-    // Handle drag end
+    super.onDragEnd(event);
   }
 
-  // 保存世界
-  Future<void> saveWorld(String path) async {
-    // TODO: Implement save logic
-  }
+  Future<void> saveWorld(String path) async {}
 }
