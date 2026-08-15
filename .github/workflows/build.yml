@@ -17,7 +17,7 @@ jobs:
     - name: Setup Flutter
       uses: subosito/flutter-action@v2
       with:
-        flutter-version: '3.16.0'
+        flutter-version: '3.27.1'
         channel: 'stable'
     
     - name: Get dependencies
@@ -31,6 +31,7 @@ jobs:
       with:
         name: ecoverse-windows
         path: build/windows/x64/runner/Release/
+        retention-days: 30
         
   build-macos:
     name: Build macOS DMG
@@ -42,7 +43,7 @@ jobs:
     - name: Setup Flutter
       uses: subosito/flutter-action@v2
       with:
-        flutter-version: '3.16.0'
+        flutter-version: '3.27.1'
         channel: 'stable'
     
     - name: Get dependencies
@@ -61,6 +62,7 @@ jobs:
       with:
         name: ecoverse-macos
         path: build/macos/Build/Products/Release/EcoVerse.dmg
+        retention-days: 30
         
   build-ios:
     name: Build iOS IPA
@@ -72,7 +74,7 @@ jobs:
     - name: Setup Flutter
       uses: subosito/flutter-action@v2
       with:
-        flutter-version: '3.16.0'
+        flutter-version: '3.27.1'
         channel: 'stable'
     
     - name: Get dependencies
@@ -94,6 +96,7 @@ jobs:
       with:
         name: ecoverse-ios
         path: build/ios/iphoneos/ecoverse.ipa
+        retention-days: 30
         
   build-android:
     name: Build Android APK
@@ -111,7 +114,7 @@ jobs:
     - name: Setup Flutter
       uses: subosito/flutter-action@v2
       with:
-        flutter-version: '3.16.0'
+        flutter-version: '3.27.1'
         channel: 'stable'
     
     - name: Get dependencies
@@ -125,3 +128,4 @@ jobs:
       with:
         name: ecoverse-android
         path: build/app/outputs/flutter-apk/app-release.apk
+        retention-days: 30
