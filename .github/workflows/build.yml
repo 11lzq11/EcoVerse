@@ -1,0 +1,127 @@
+name: Build EcoVerse
+
+on:
+  push:
+    branches: [main, master, develop]
+  pull_request:
+    branches: [main, master]
+
+jobs:
+  build-windows:
+    name: Build Windows EXE
+    runs-on: windows-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Setup Flutter
+      uses: subosito/flutter-action@v2
+      with:
+        flutter-version: '3.16.0'
+        channel: 'stable'
+    
+    - name: Get dependencies
+      run: flutter pub get
+      
+    - name: Build Windows release
+      run: flutter build windows --release
+      
+    - name: Upload Windows artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: ecoverse-windows
+        path: build/windows/x64/runner/Release/
+        
+  build-macos:
+    name: Build macOS DMG
+    runs-on: macos-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Setup Flutter
+      uses: subosito/flutter-action@v2
+      with:
+        flutter-version: '3.16.0'
+        channel: 'stable'
+    
+    - name: Get dependencies
+      run: flutter pub get
+      
+    - name: Build macOS release
+      run: flutter build macos --release
+      
+    - name: Create DMG
+      run: |
+        cd build/macos/Build/Products/Release
+        hdiutil create -volname EcoVerse -srcfolder EcoVerse.app -ov -format UDZO EcoVerse.dmg
+        
+    - name: Upload macOS artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: ecoverse-macos
+        path: build/macos/Build/Products/Release/EcoVerse.dmg
+        
+  build-ios:
+    name: Build iOS IPA
+    runs-on: macos-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Setup Flutter
+      uses: subosito/flutter-action@v2
+      with:
+        flutter-version: '3.16.0'
+        channel: 'stable'
+    
+    - name: Get dependencies
+      run: flutter pub get
+      
+    - name: Build iOS release
+      run: |
+        flutter build ios --release --no-codesign
+      
+    - name: Archive IPA
+      run: |
+        cd build/ios/iphoneos
+        mkdir -p Payload
+        cp -r Runner.app Payload/
+        zip -r ecoverse.ipa Payload
+        
+    - name: Upload iOS artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: ecoverse-ios
+        path: build/ios/iphoneos/ecoverse.ipa
+        
+  build-android:
+    name: Build Android APK
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Setup Java
+      uses: actions/setup-java@v4
+      with:
+        distribution: 'temurin'
+        java-version: '17'
+    
+    - name: Setup Flutter
+      uses: subosito/flutter-action@v2
+      with:
+        flutter-version: '3.16.0'
+        channel: 'stable'
+    
+    - name: Get dependencies
+      run: flutter pub get
+      
+    - name: Build Android release
+      run: flutter build apk --release
+      
+    - name: Upload Android artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: ecoverse-android
+        path: build/app/outputs/flutter-apk/app-release.apk

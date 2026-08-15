@@ -1,0 +1,154 @@
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# Compiled output
+*.dll
+*.exe
+*.pdb
+*.so
+*.dylib
+*.test.js
+*.min.js
+*.o
+*.cmake
+*.ninja
+*.ilk
+*.map
+*.iobj
+*.ipdb
+*.ni
+*.natdb
+*.ndp
+*.suo
+*.tlb
+*.tlh
+*.bak
+*.db
+*.sdf
+*.ipch
+*.vspscc
+*.vssscc
+*.bsc
+*.sbr
+*.obj
+*.pch
+*.res
+*.manifest
+*.manifest.bak
+*.deploymanifest
+*.winmd
+*.ilk
+*.exp
+*.lib
+*.ilk
+*.pdb
+*.idb
+*.ilk
+*.exp
+*.lib
+
+# Flutter/Dart/Flutter generated files
+.dart_tool/
+/build/
+/pubspec.lock
+/.flutter-plugins
+/.flutter-plugins-dependencies
+/.packages
+/.*.iml
+/local.properties
+/.idea/
+*.log
+
+# Android/Gradle
+/android/.gradle
+/android/build/
+/android/*.ap*
+/android/app/build/
+/android/local.properties
+/android/.idea/
+android/gradle/wrapper/gradle-wrapper.jar
+
+# iOS
+/ios/Pods/
+/ios/*.xcworkspace
+/ios/Runner.xcodeproj/
+/ios/Runner.xcodeproj/project.pbxproj
+/ios/Runner.xcodeproj/xcshareddata/
+/ios/Runner.xcworkspace/xcuserdata/
+/ios/Flutter/Generated.xcconfig
+/ios/Flutter/ephemeral/
+/ios/Flutter/AppFrameworkInfo.plist
+/ios/Flutter/Release.xcconfig
+/ios/Flutter/Debug.xcconfig
+/ios/Runner/GeneratedPluginRegistrant.h
+/ios/Runner/GeneratedPluginRegistrant.m
+
+# macOS
+/macos/Pods/
+/macos/*.xcworkspace
+/macos/Flutter/Generated.xcconfig
+/macos/Flutter/ephemeral/
+/macos/Flutter/GeneratedPluginRegistrant.swift
+/macos/build/
+
+# Linux
+/linux/flutter/ephemeral/
+/linux/flutter/generated_plugin_registrant.cc
+/linux/flutter/generated_plugin_registrant.h
+/linux/flutter/generated_plugins.cmake
+
+# Web
+/web/vendor/
+
+# Windows
+/windows/flutter/ephemeral/
+/windows/flutter/generated_plugin_registrant.cc
+/windows/flutter/generated_plugin_registrant.h
+/windows/flutter/generated_plugins.cmake
+/windows/build/
+
+# Dependencies
+packages/
+.dart_tool/
+.pub-cache/
+.pub/
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+Thumbs.db:encryptable
+
+# Flutter analysis
+analysis_options.yaml
+*.yaml
+
+# Secrets
+*.env
+.env.local
+.env.production
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Misc
+*.orig
+*.temp
+*.tmp
+*.temp
+*.bak
+*.old
