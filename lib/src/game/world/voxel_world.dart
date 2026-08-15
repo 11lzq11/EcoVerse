@@ -57,7 +57,7 @@ class VoxelWorld {
   
   bool isSolid(int x, int y, int z) {
     final type = getVoxel(x, y, z);
-    return type != null && blockProperties[type!]?.isSolid ?? true;
+    return type != null && blockProperties[type]?.isSolid ?? true;
   }
   
   Vector2 getPlayerHeight() {

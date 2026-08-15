@@ -19,15 +19,6 @@ class EcoVerseGame extends FlameGame with HasKeyboardHandlerComponents, TapCallb
   // 键盘输入状态
   final Map<LogicalKeyboardKey, bool> keysDown = {};
 
-  // 触摸输入追踪
-  final Map<int, Vector2> touchesBegan = {};
-  final Map<int, Vector2> touchesMoved = {};
-  final Map<int, Vector2> touchesEnded = {};
-  final List<TapDownEvent> tapDowns = [];
-  final List<DragStartEvent> dragsStarted = [];
-  final List<DragUpdateEvent> drags = [];
-  final List<DragEndEvent> dragsEnded = [];
-
   @override
   Future<void> onLoad() async {
     await super.onLoad();
@@ -78,19 +69,19 @@ class EcoVerseGame extends FlameGame with HasKeyboardHandlerComponents, TapCallb
 
   void _processKeyboardInput(double dt) {
     const double speed = 10.0;
-    final Vector3 direction = Vector3.zero();
+    final Vector2 direction = Vector2.zero();
 
     if (keysDown[LogicalKeyboardKey.keyW] == true || keysDown[LogicalKeyboardKey.arrowUp] == true) {
-      direction.add(Vector3(0, 0, -1));
+      direction.y -= 1;
     }
     if (keysDown[LogicalKeyboardKey.keyS] == true || keysDown[LogicalKeyboardKey.arrowDown] == true) {
-      direction.add(Vector3(0, 0, 1));
+      direction.y += 1;
     }
     if (keysDown[LogicalKeyboardKey.keyA] == true || keysDown[LogicalKeyboardKey.arrowLeft] == true) {
-      direction.add(Vector3(-1, 0, 0));
+      direction.x -= 1;
     }
     if (keysDown[LogicalKeyboardKey.keyD] == true || keysDown[LogicalKeyboardKey.arrowRight] == true) {
-      direction.add(Vector3(1, 0, 0));
+      direction.x += 1;
     }
 
     if (direction.length() > 0) {
@@ -120,23 +111,23 @@ class EcoVerseGame extends FlameGame with HasKeyboardHandlerComponents, TapCallb
   // 触摸事件处理 - TapCallbacks
   @override
   void onTapDown(TapDownEvent event) {
-    tapDowns.add(event);
+    // Handle tap
   }
 
   // 拖拽事件处理 - DragCallbacks
   @override
   void onDragStart(DragStartEvent event) {
-    dragsStarted.add(event);
+    // Handle drag start
   }
 
   @override
   void onDragUpdate(DragUpdateEvent event) {
-    drags.add(event);
+    // Handle drag update
   }
 
   @override
   void onDragEnd(DragEndEvent event) {
-    dragsEnded.add(event);
+    // Handle drag end
   }
 
   // 保存世界
