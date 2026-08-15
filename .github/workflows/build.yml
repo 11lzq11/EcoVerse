@@ -69,6 +69,8 @@ jobs:
 
       - name: Build Windows
         run: flutter build windows --release
+        env:
+          CMAKE_GENERATOR: "Visual Studio 17 2022"
 
       - name: Upload Windows build
         uses: actions/upload-artifact@v4
@@ -87,6 +89,9 @@ jobs:
         with:
           flutter-version: ${{ env.FLUTTER_VERSION }}
           channel: stable
+
+      - name: Enable macOS desktop
+        run: flutter config --enable-macos-desktop
 
       - name: Flutter info
         run: flutter doctor -v

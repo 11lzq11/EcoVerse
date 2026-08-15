@@ -1,5 +1,5 @@
 import 'package:flame/components.dart';
-import '../ecoverse_game.dart';
+import '../../ecoverse_game.dart';
 
 class PlayerController extends PositionComponent {
   final EcoVerseGame game;

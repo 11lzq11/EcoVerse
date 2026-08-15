@@ -1,9 +1,9 @@
 import 'package:flame/game.dart';
-import '../managers/resource_manager.dart';
-import '../entities/entities_system.dart';
-import '../entities/player/player_controller.dart';
-import '../world/chunk_manager.dart';
-import '../world/voxel_world.dart';
+import 'managers/resource_manager.dart';
+import 'entities/entities_system.dart';
+import 'entities/player/player_controller.dart';
+import 'world/chunk_manager.dart';
+import 'world/voxel_world.dart';
 
 class EcoVerseGame extends FlameGame {
   late VoxelWorld world;
