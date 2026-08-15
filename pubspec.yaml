@@ -1,0 +1,50 @@
+name: ecoverse
+description: 灵境 EcoVerse - 开放创造式沙盒游戏
+publish_to: 'none'
+
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+  flutter: '>=3.16.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^1.0.6
+  
+  # Game engine
+  flame: ^1.14.0
+  flame_audio: ^2.1.2
+  
+  # State management
+  provider: ^6.1.1
+  
+  # Storage
+  shared_preferences: ^2.2.2
+  
+  # UI enhancements
+  flutter_animate: ^4.3.0
+  flutter_svg: ^2.0.9
+  
+  # Audio
+  just_audio: ^0.9.36
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+
+flutter:
+  uses-material-design: true
+  
+  assets:
+    - assets/textures/
+    - assets/sounds/
+    - assets/models/
+    - assets/ui/
+    
+  fonts:
+    - family: GameFont
+      fonts:
+        - asset: assets/fonts/Vt323-Regular.ttf
