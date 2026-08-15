@@ -1,17 +1,23 @@
 import 'package:flutter/material.dart';
-import 'src/game/menu/main_menu.dart';
+import 'src/game/ecoverse_game.dart';
 
 void main() {
-  runApp(EcoVerseApp());
+  runApp(const EcoVerseApp());
 }
 
 class EcoVerseApp extends StatelessWidget {
+  const EcoVerseApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'EcoVerse',
-      theme: ThemeData(primarySwatch: Colors.green, brightness: Brightness.dark),
-      home: MainMenu(),
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        primarySwatch: Colors.green,
+        brightness: Brightness.dark,
+      ),
+      home: const EcoVerseGamePage(),
     );
   }
 }
