@@ -1,21 +1,19 @@
-import 'dart:collection';
-import 'dart:math' as math;
 import 'package:flame/components.dart';
-import 'package:vector_math/vector_math_64.dart';
-import '../noise/perlin_noise.dart';
 import 'voxel_types.dart';
+import '../noise/perlin_noise.dart';
 
 class VoxelWorld {
   static const int CHUNK_SIZE = 16;
   static const int WORLD_HEIGHT = 64;
   
-  final Map<Vector3i, VoxelType> _voxels = HashMap<Vector3i, VoxelType>();
+  final Map<Vector2, VoxelType> _voxels = {};
   final Map<String, ChunkData> _chunks = {};
   final PerlinNoise _noise;
+  final int seed;
   
-  VoxelWorld({int seed = 42}) : _noise = PerlinNoise(seed);
+  VoxelWorld({this.seed = 42}) : _noise = PerlinNoise(seed);
   
-  Vector3i get playerPosition => Vector3i(0, WORLD_HEIGHT ~/ 2, 0);
+  Vector2 get playerPosition => Vector2(0, 0);
   
   void generateTerrain() {
     for (int x = -50; x < 50; x++) {
@@ -48,13 +46,13 @@ class VoxelWorld {
   
   void setVoxel(int x, int y, int z, VoxelType type) {
     if (y < 0 || y >= WORLD_HEIGHT) return;
-    _voxels[Vector3i(x, y, z)] = type;
+    _voxels[Vector2(x.toDouble(), z.toDouble())] = type;
     _invalidateChunk(x, z);
   }
   
   VoxelType? getVoxel(int x, int y, int z) {
     if (y < 0 || y >= WORLD_HEIGHT) return null;
-    return _voxels[Vector3i(x, y, z)];
+    return _voxels[Vector2(x.toDouble(), z.toDouble())];
   }
   
   bool isSolid(int x, int y, int z) {
@@ -62,38 +60,30 @@ class VoxelWorld {
     return type != null && blockProperties[type!]?.isSolid ?? true;
   }
   
-  Vector3 getPlayerHeight() {
+  Vector2 getPlayerHeight() {
     final px = playerPosition.x;
-    final pz = playerPosition.z;
+    final pz = playerPosition.y;
     
     for (int y = WORLD_HEIGHT - 1; y >= 0; y--) {
-      if (isSolid(px, y, pz)) {
-        return Vector3(px.toDouble(), y + 2.0, pz.toDouble());
+      if (isSolid(px.floor(), y, pz.floor())) {
+        return Vector2(px, y + 2.0);
       }
     }
-    return Vector3(px.toDouble(), WORLD_HEIGHT.toDouble() / 2, pz.toDouble());
+    return Vector2(px, WORLD_HEIGHT.toDouble() / 2);
   }
   
   void invalidateChunk(int x, int z) {
     final cx = (x / CHUNK_SIZE).floor();
     final cz = (z / CHUNK_SIZE).floor();
-    _chunks.remove('${cx}_$cz');
+    _chunks.remove('$cx_$cz');
   }
   
   ChunkData? getChunk(int cx, int cz) {
     final key = '$cx_$cz';
     if (!_chunks.containsKey(key)) {
-      _chunks[key] = _generateChunk(cx, cz);
+      _chunks[key] = ChunkData(cx: cx, cz: cz, voxels: {});
     }
     return _chunks[key];
-  }
-  
-  ChunkData _generateChunk(int cx, int cz) {
-    return ChunkData(
-      cx: cx,
-      cz: cz,
-      voxels: {},
-    );
   }
   
   int get chunkCount => _chunks.length;
@@ -101,9 +91,7 @@ class VoxelWorld {
 
 class ChunkData {
   final int cx, cz;
-  final Map<Vector3i, VoxelType> voxels;
+  final Map<Vector2, VoxelType> voxels;
   
   ChunkData({required this.cx, required this.cz, required this.voxels});
 }
-
-const Map<VoxelType, BlockProperties> blockProperties = {};

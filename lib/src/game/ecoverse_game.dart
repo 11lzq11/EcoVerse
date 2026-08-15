@@ -1,8 +1,6 @@
 import 'dart:async';
-import 'package:flame/components.dart';
 import 'package:flame/events.dart';
 import 'package:flame/game.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:vector_math/vector_math_64.dart';
 import '../managers/resource_manager.dart';
@@ -25,7 +23,7 @@ class EcoVerseGame extends FlameGame with HasKeyboardHandlerComponents, TapCallb
   final Map<int, Vector2> touchesBegan = {};
   final Map<int, Vector2> touchesMoved = {};
   final Map<int, Vector2> touchesEnded = {};
-  final List<TapEvent> tapDowns = [];
+  final List<TapDownEvent> tapDowns = [];
   final List<DragStartEvent> dragsStarted = [];
   final List<DragUpdateEvent> drags = [];
   final List<DragEndEvent> dragsEnded = [];
@@ -82,16 +80,16 @@ class EcoVerseGame extends FlameGame with HasKeyboardHandlerComponents, TapCallb
     const double speed = 10.0;
     final Vector3 direction = Vector3.zero();
 
-    if (keysDown[LogicalKeyboardKey.keyW] ?? false || keysDown[LogicalKeyboardKey.arrowUp] ?? false) {
+    if (keysDown[LogicalKeyboardKey.keyW] == true || keysDown[LogicalKeyboardKey.arrowUp] == true) {
       direction.add(Vector3(0, 0, -1));
     }
-    if (keysDown[LogicalKeyboardKey.keyS] ?? false || keysDown[LogicalKeyboardKey.arrowDown] ?? false) {
+    if (keysDown[LogicalKeyboardKey.keyS] == true || keysDown[LogicalKeyboardKey.arrowDown] == true) {
       direction.add(Vector3(0, 0, 1));
     }
-    if (keysDown[LogicalKeyboardKey.keyA] ?? false || keysDown[LogicalKeyboardKey.arrowLeft] ?? false) {
+    if (keysDown[LogicalKeyboardKey.keyA] == true || keysDown[LogicalKeyboardKey.arrowLeft] == true) {
       direction.add(Vector3(-1, 0, 0));
     }
-    if (keysDown[LogicalKeyboardKey.keyD] ?? false || keysDown[LogicalKeyboardKey.arrowRight] ?? false) {
+    if (keysDown[LogicalKeyboardKey.keyD] == true || keysDown[LogicalKeyboardKey.arrowRight] == true) {
       direction.add(Vector3(1, 0, 0));
     }
 
@@ -102,20 +100,21 @@ class EcoVerseGame extends FlameGame with HasKeyboardHandlerComponents, TapCallb
     }
 
     // 跳跃
-    if (keysDown[LogicalKeyboardKey.space] ?? false) {
+    if (keysDown[LogicalKeyboardKey.space] == true) {
       playerController.jump();
     }
   }
 
   // 键盘事件处理
   @override
-  void onKeyEvent(RawKeyEvent event) {
+  KeyEventResult onKeyEvent(RawKeyEvent event, Set<LogicalKeyboardKey> keysPressed) {
     final LogicalKeyboardKey key = event.logicalKey;
     if (event is RawKeyDownEvent) {
       keysDown[key] = true;
     } else if (event is RawKeyUpEvent) {
       keysDown[key] = false;
     }
+    return KeyEventResult.ignore;
   }
 
   // 触摸事件处理 - TapCallbacks
@@ -128,21 +127,16 @@ class EcoVerseGame extends FlameGame with HasKeyboardHandlerComponents, TapCallb
   @override
   void onDragStart(DragStartEvent event) {
     dragsStarted.add(event);
-    touchesBegan[event.pointer] = event.localPosition;
   }
 
   @override
   void onDragUpdate(DragUpdateEvent event) {
     drags.add(event);
-    touchesMoved[event.pointer] = event.localPosition;
   }
 
   @override
   void onDragEnd(DragEndEvent event) {
     dragsEnded.add(event);
-    touchesEnded[event.pointer] = event.localPosition;
-    touchesBegan.remove(event.pointer);
-    touchesMoved.remove(event.pointer);
   }
 
   // 保存世界

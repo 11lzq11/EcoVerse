@@ -25,3 +25,7 @@ class Renderer3D {
     return Vector3(1, 1, -1).normalized();
   }
 }
+
+extension on Vector2 {
+  Vector3 toVector3([double z = 0]) => Vector3(x, y, z);
+}
