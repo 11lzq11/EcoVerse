@@ -29,9 +29,6 @@ jobs:
           flutter-version: ${{ env.FLUTTER_VERSION }}
           channel: stable
 
-      - name: Flutter info
-        run: flutter doctor -v
-
       - name: Install dependencies
         run: flutter pub get
 
@@ -56,19 +53,12 @@ jobs:
           flutter-version: ${{ env.FLUTTER_VERSION }}
           channel: stable
 
-      - name: Flutter info
-        run: flutter doctor -v
-
       - name: Install dependencies
         run: flutter pub get
 
       - name: Build Windows
-        run: |
-          $vsPath = & "${env:ProgramFiles(x86)}\Microsoft Visual Studio\Installer\vswhere.exe" -latest -property installationPath
-          $cmakeGen = "Visual Studio " + (Get-Item "$vsPath\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\..\..\..\..").Name.Split(' ')[-1]
-          $env:CMAKE_GENERATOR = $cmakeGen
-          Write-Host "Using CMake generator: $cmakeGen"
-          flutter build windows --release
+        run: flutter build windows --release
+        shell: cmd
 
       - name: Upload Windows build
         uses: actions/upload-artifact@v4
@@ -91,11 +81,8 @@ jobs:
       - name: Enable macOS desktop
         run: flutter config --enable-macos-desktop
 
-      - name: Flutter info
-        run: flutter doctor -v
-
       - name: Regenerate macOS project
-        run: flutter create --platforms=macos .
+        run: flutter create --project-name ecoverse --platforms=macos .
 
       - name: Install dependencies
         run: flutter pub get
@@ -128,8 +115,8 @@ jobs:
           flutter-version: ${{ env.FLUTTER_VERSION }}
           channel: stable
 
-      - name: Flutter info
-        run: flutter doctor -v
+      - name: Regenerate iOS project
+        run: flutter create --project-name ecoverse --platforms=ios .
 
       - name: Install dependencies
         run: flutter pub get
