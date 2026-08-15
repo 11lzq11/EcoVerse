@@ -33,7 +33,7 @@
 
 ```bash
 # Clone the repository
-git clone https://github.com/[your-username]/ecoverse.git
+git clone https://github.com/11lzq11/ecoverse.git
 cd ecoverse
 
 # Get dependencies
