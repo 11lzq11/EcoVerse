@@ -1,64 +1,38 @@
 import 'dart:async';
+import 'package:flame/components.dart';
 import 'package:vector_math/vector_math_64.dart';
 import 'voxel_world.dart';
 
-/// Manages chunk loading/unloading around the player
-class ChunkManager {
-  final VoxelWorld world;
+class ChunkManager extends Component {
+  final VoxelWorld _world;
   final int renderDistance;
+  final Set<Vector2i> _loadedChunks = {};
   
-  final Map<IntVector3, ChunkData> _chunks = {};
-  final Set<IntVector3> _loadedChunks = {};
+  ChunkManager(this._world, {this.renderDistance = 4});
   
-  ChunkManager({
-    required this.world,
-    required this.renderDistance,
-  });
-  
-  /// Get all loaded chunks
-  Map<IntVector3, ChunkData> get chunks => Map.unmodifiable(_chunks);
-  
-  /// Update chunks based on player position
-  void update(Vector3 playerPos) {
-    final currentChunkX = (playerPos.x / world.chunkSize).floor();
-    final currentChunkZ = (playerPos.z / world.chunkSize).floor();
+  void updateChunks(Vector3 playerPos) {
+    final int playerChunkX = (playerPos.x / VoxelWorld.CHUNK_SIZE).floor();
+    final int playerChunkZ = (playerPos.z / VoxelWorld.CHUNK_SIZE).floor();
     
-    // Determine which chunks should be loaded
-    final desiredChunks = <IntVector3>{};
-    for (var dx = -renderDistance; dx <= renderDistance; dx++) {
-      for (var dz = -renderDistance; dz <= renderDistance; dz++) {
-        desiredChunks.add(IntVector3(currentChunkX + dx, 0, currentChunkZ + dz));
+    final Vector2i playerChunk = Vector2i(playerChunkX, playerChunkZ);
+    
+    // Load chunks in range
+    for (int x = playerChunkX - renderDistance; x <= playerChunkX + renderDistance; x++) {
+      for (int z = playerChunkZ - renderDistance; z <= playerChunkZ + renderDistance; z++) {
+        final Vector2i chunkKey = Vector2i(x, z);
+        if (!_loadedChunks.contains(chunkKey)) {
+          _loadedChunks.add(chunkKey);
+          _world.getChunk(x, z);
+        }
       }
     }
     
-    // Unload chunks outside render distance
-    final chunksToRemove = _loadedChunks.where((chunk) => !desiredChunks.contains(chunk)).toList();
-    for (final chunk in chunksToRemove) {
-      _unloadChunk(chunk);
-    }
-    
-    // Load new chunks
-    for (final chunk in desiredChunks) {
-      if (!_loadedChunks.contains(chunk)) {
-        _loadChunk(chunk);
-      }
-    }
+    // Unload far chunks
+    _loadedChunks.removeWhere((key) {
+      return (key.x - playerChunkX).abs() > renderDistance ||
+             (key.y - playerChunkZ).abs() > renderDistance;
+    });
   }
   
-  void _loadChunk(IntVector3 chunkPos) {
-    final data = world.getOrCreateChunk(chunkPos);
-    _chunks[chunkPos] = data;
-    _loadedChunks.add(chunkPos);
-  }
-  
-  void _unloadChunk(IntVector3 chunkPos) {
-    _chunks.remove(chunkPos);
-    _loadedChunks.remove(chunkPos);
-  }
-  
-  /// Check if chunk is loaded
-  bool isLoading(IntVector3 pos) => _loadedChunks.contains(pos);
-  
-  /// Get chunk at position
-  ChunkData? getChunk(IntVector3 pos) => _chunks[pos];
+  int get loadedChunkCount => _loadedChunks.length;
 }
